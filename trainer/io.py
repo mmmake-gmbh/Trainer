@@ -165,14 +165,10 @@ def save_checkpoint(
     from TTS.utils.synthesizer import Synthesizer
     synthesizer = Synthesizer(checkpoint_path, os.path.join(output_folder, 'config.json'))
     model = MyModel(synthesizer=synthesizer)
-    # For MLflow logging, , artifacts={'checkpoint': file_name, "output": output_folder}
-
-    run_name = os.getenv("RUN_NAME", "vits_janika_de")
     
-    mlflow.pyfunc.log_model(python_model=model, artifact_path="models/TTS",registered_model_name=run_name, code_path=[output_folder])
+    mlflow.pyfunc.log_model(python_model=model, artifact_path="models/TTS", code_path=[output_folder])
     if save_n_checkpoints is not None:
         keep_n_checkpoints(output_folder, save_n_checkpoints)
-
 
 def save_best_model(
     current_loss,
