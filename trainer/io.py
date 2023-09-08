@@ -12,6 +12,8 @@ import torch
 from coqpit import Coqpit
 
 from trainer.logger import logger
+from TTS.tts.models.modelWrapper import MyModel
+from TTS.utils.synthesizer import Synthesizer
 
 
 def get_user_data_dir(appname):
@@ -161,8 +163,7 @@ def save_checkpoint(
         save_func=save_func,
         **kwargs,
     )
-    from TTS.tts.models.modelWrapper import MyModel
-    from TTS.utils.synthesizer import Synthesizer
+    
     synthesizer = Synthesizer(checkpoint_path, os.path.join(output_folder, 'config.json'))
     model = MyModel(synthesizer=synthesizer)
     
