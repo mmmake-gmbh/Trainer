@@ -414,6 +414,8 @@ class Trainer:
             # create a new output folder name
             output_path = get_experiment_folder_path(config.output_path, config.run_name)
             os.makedirs(output_path, exist_ok=True)
+            
+        self.experiment_output_path = output_path 
 
         # copy training assets to the output folder
         copy_model_files(config, output_path, new_fields)
