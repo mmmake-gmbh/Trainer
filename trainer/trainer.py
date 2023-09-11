@@ -1622,6 +1622,8 @@ class Trainer:
                 if self.config.run_eval or not isinstance(self.config.run_eval_steps,type(None))
                 else None
             )
+            
+        print(self.config.run_eval_steps, self.config.run_eval)
 
         torch.set_grad_enabled(False)
         self.model.eval()
