@@ -1623,7 +1623,8 @@ class Trainer:
                 else None
             )
             
-        print(self.config.run_eval_steps, self.config.run_eval)
+        print("self.config.run_eval_steps",self.config.run_eval_steps)
+        print("self.config.run_eval",self.config.run_eval)
 
         torch.set_grad_enabled(False)
         self.model.eval()
