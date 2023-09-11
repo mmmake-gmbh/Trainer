@@ -1768,8 +1768,8 @@ class Trainer:
             self.c_logger.print_epoch_start(epoch, self.config.epochs, self.output_path)
             if not self.skip_train_epoch and not self.start_with_eval:
                 self.train_epoch()
-            if self.config.run_eval:
-                self.eval_epoch()
+            # if self.config.run_eval:
+            #     self.eval_epoch()
             if epoch >= self.config.test_delay_epochs and self.args.rank <= 0:
                 self.test_run()
 
