@@ -54,7 +54,7 @@ from trainer.utils.distributed import (
     rank_zero_logger_info,
     rank_zero_only,
 )
-from trainer.utils.rclone import update_local_data
+from trainer.utils.rclone import sync_data2s3bucket
 
 logger = logging.getLogger("trainer")
 
@@ -1487,6 +1487,7 @@ class Trainer:
         loader_start_time = time.time()
         # TRAINING EPOCH -> iterate over the training samples
         batch_num_steps = len(self.train_loader)
+        intermediate_eval = False
         for cur_step, batch in enumerate(self.train_loader):
             outputs, _ = self.train_step(batch, batch_num_steps, cur_step, loader_start_time)
             if outputs is None:
@@ -1497,6 +1498,7 @@ class Trainer:
 
             # RUN EVAL -> run evaluation epoch in the middle of training. Useful for big datasets.
             if self.config.run_eval_steps is not None and (self.total_steps_done % self.config.run_eval_steps == 0):
+                intermediate_eval = True
                 self.eval_epoch()
                 if self.num_gpus > 1:
                     self.model.module.train()
@@ -1524,6 +1526,8 @@ class Trainer:
             self.dashboard_logger.train_epoch_stats(self.total_steps_done, epoch_stats)
             if self.config.model_param_stats:
                 self.dashboard_logger.model_weights(self.model, self.total_steps_done)
+            if intermediate_eval:
+                sync_data2s3bucket(os.getenv("VOICE_GENERATION_RESULTS_BUCKET"), os.getenv("OUTPUT_PATH"))
         torch.cuda.empty_cache()
 
     #######################

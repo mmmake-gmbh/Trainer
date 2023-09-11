@@ -1,16 +1,15 @@
 import os
 import subprocess
 
-def update_local_data(repo_name:str, branch_name:str, target_folder:str, upload: bool = False):
-    #TODO do not sync, only copy metadata.csv and wavs folder from lakefs to local
-    if upload:
-        command = ["rclone", "sync", target_folder,
-                   f"lakefs:{repo_name}/{branch_name}"]
-    else:
-        command = ["rclone", "sync",
+def get_data_from_lakefs(repo_name:str, branch_name:str, target_folder:str):
+    command = ["rclone", "sync",
                    f"lakefs:{repo_name}/{branch_name}", target_folder]
-    print(command)
     result = subprocess.run(command, capture_output=True)
-    print(result.stderr)
-    print(os.listdir(target_folder))
+    print("Rclone stderr:", result.stderr)
+    assert result.returncode == 0
+    
+def sync_data2s3bucket(bucket_name:str, source_folder:str):
+    command = ["rclone", "sync", source_folder, f"s3:{bucket_name}"]
+    result = subprocess.run(command, capture_output=True)
+    print("Rclone stderr:", result.stderr)
     assert result.returncode == 0
