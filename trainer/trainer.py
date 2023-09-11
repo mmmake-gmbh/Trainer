@@ -1619,7 +1619,7 @@ class Trainer:
                     self.eval_samples,
                     verbose=True,
                 )
-                if self.config.run_eval or isinstance(self.config.run_eval_steps,type(None))
+                if self.config.run_eval or not isinstance(self.config.run_eval_steps,type(None))
                 else None
             )
 
