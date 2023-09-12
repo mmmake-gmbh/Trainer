@@ -1619,8 +1619,8 @@ class Trainer:
                     self.eval_samples,
                     verbose=True,
                 )
-                if self.config.run_eval or not isinstance(self.config.run_eval_steps,type(None))
-                else None
+                # if self.config.run_eval or not isinstance(self.config.run_eval_steps,type(None))
+                # else None
             )
             
         print("self.config.run_eval_steps",self.config.run_eval_steps)
@@ -1763,7 +1763,7 @@ class Trainer:
                 dist.barrier()
             self.callbacks.on_epoch_start(self)
             self.keep_avg_train = KeepAverage()
-            self.keep_avg_eval = KeepAverage() if self.config.run_eval else None
+            self.keep_avg_eval = KeepAverage() #if self.config.run_eval else None
             self.epochs_done = epoch
             self.c_logger.print_epoch_start(epoch, self.config.epochs, self.output_path)
             if not self.skip_train_epoch and not self.start_with_eval:
@@ -1775,7 +1775,7 @@ class Trainer:
 
             self.c_logger.print_epoch_end(
                 epoch,
-                self.keep_avg_eval.avg_values if self.config.run_eval else self.keep_avg_train.avg_values,
+                self.keep_avg_eval.avg_values #if self.config.run_eval else self.keep_avg_train.avg_values,
             )
             if self.args.rank in [None, 0]:
                 self.save_best_model()
