@@ -1500,6 +1500,7 @@ class Trainer:
             if self.config.run_eval_steps is not None and (self.total_steps_done % self.config.run_eval_steps == 0):
                 intermediate_eval = True
                 self.eval_epoch()
+                self.test_run()
                 if self.num_gpus > 1:
                     self.model.module.train()
                 else:
@@ -1770,8 +1771,8 @@ class Trainer:
                 self.train_epoch()
             # if self.config.run_eval:
             #     self.eval_epoch()
-            if epoch >= self.config.test_delay_epochs and self.args.rank <= 0:
-                self.test_run()
+            # if epoch >= self.config.test_delay_epochs and self.args.rank <= 0:
+            #     self.test_run()
 
             self.c_logger.print_epoch_end(
                 epoch,

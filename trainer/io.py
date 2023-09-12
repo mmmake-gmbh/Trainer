@@ -162,13 +162,7 @@ def save_checkpoint(
         save_func=save_func,
         **kwargs,
     )
-    from TTS.tts.models.modelWrapper import MyModel
-    from TTS.utils.synthesizer import Synthesizer
 
-    synthesizer = Synthesizer(checkpoint_path, os.path.join(output_folder, 'config.json'))
-    model = MyModel(synthesizer=synthesizer)
-    
-    mlflow.pyfunc.log_model(python_model=model, artifact_path="models/TTS", code_path=[output_folder])
     if save_n_checkpoints is not None:
         keep_n_checkpoints(output_folder, save_n_checkpoints)
 
