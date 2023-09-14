@@ -14,8 +14,8 @@ def sync_data2s3bucket(bucket_name:str, source_folder:str, name_from_config:str=
     print("Rclone stderr:", result.stderr)
     assert result.returncode == 0
     
-def copy_data_from_s3bucket(bucket_name:str, target_folder:str, name_from_config:str="lakefs", dir_oi:str=""):
-    command = ["rclone", "copy", f"{name_from_config}:{bucket_name}"+"" if dir_oi else f"/{dir_oi}", target_folder]
+def copy_data_from_s3bucket(bucket_uri:str, target_folder:str):
+    command = ["rclone", "copy", bucket_uri, target_folder]
     result = subprocess.run(command, capture_output=True)
     print("Rclone stderr:", result.stderr)
     assert result.returncode == 0
