@@ -2,7 +2,7 @@ import os
 import subprocess
 
 def get_data_from_lakefs(repo_name:str, branch_name:str, target_folder:str):
-    command = ["rclone", "sync",
+    command = ["rclone", "copy",
                    f"lakefs:{repo_name}/{branch_name}", target_folder]
     result = subprocess.run(command, capture_output=True)
     print("Rclone stderr:", result.stderr)
