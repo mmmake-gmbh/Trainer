@@ -181,6 +181,10 @@ def save_best_model(
     save_func=None,
     **kwargs,
 ):
+    print("current_loss: ",current_loss)
+    print("best_loss: ",best_loss)
+    if isinstance(best_loss,dict):
+        best_loss=best_loss["eval_loss"]
     if current_loss < best_loss:
         best_model_name = f"best_model_{current_step}.pth"
         checkpoint_path = os.path.join(out_path, best_model_name)
