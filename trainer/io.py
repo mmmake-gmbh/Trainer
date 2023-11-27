@@ -6,10 +6,11 @@ import sys
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple, Union
 from urllib.parse import urlparse
-
+import mlflow
 import fsspec
 import torch
 from coqpit import Coqpit
+
 
 from trainer.logger import logger
 
@@ -161,9 +162,9 @@ def save_checkpoint(
         save_func=save_func,
         **kwargs,
     )
+
     if save_n_checkpoints is not None:
         keep_n_checkpoints(output_folder, save_n_checkpoints)
-
 
 def save_best_model(
     current_loss,
@@ -180,6 +181,8 @@ def save_best_model(
     save_func=None,
     **kwargs,
 ):
+    print("current_loss: ",current_loss)
+    print("best_loss: ",best_loss)
     if current_loss < best_loss:
         best_model_name = f"best_model_{current_step}.pth"
         checkpoint_path = os.path.join(out_path, best_model_name)
